@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-#coding: utf-8
 import pygame
 from pygame.locals import *
 import os
@@ -10,20 +9,20 @@ SCR_RECT = Rect(0, 0, 372, 384)
 def main():
     pygame.init()
     screen = pygame.display.set_mode(SCR_RECT.size)
-    pygame.display.set_caption(u"Breakout 04 ボールの反射音")
-    
+    pygame.display.set_caption("Breakout 04 ボールの反射音")
+
     # サウンドのロード
     Ball.paddle_sound = load_sound("wood00.wav")
     Ball.brick_sound = load_sound("chari06.wav")
     Ball.fall_sound = load_sound("fall06.wav")
-    
+
     # スプライトグループを作成して登録
     all = pygame.sprite.RenderUpdates()  # 描画用グループ
     bricks = pygame.sprite.Group()       # 衝突判定用グループ
     Paddle.containers = all
     Ball.containers = all
     Brick.containers = all, bricks
-    
+
     # パドル
     paddle = Paddle()
     # ブロックを作成
@@ -33,7 +32,7 @@ def main():
             Brick(x, y)
     # ボールを作成
     Ball(paddle, bricks)
-    
+
     clock = pygame.time.Clock()
     while True:
         clock.tick(60)
@@ -140,9 +139,9 @@ def load_image(filename, colorkey=None):
     filename = os.path.join("data", filename)
     try:
         image = pygame.image.load(filename)
-    except pygame.error, message:
-        print "Cannot load image:", filename
-        raise SystemExit, message
+    except pygame.error as message:
+        print("Cannot load image:", filename)
+        raise SystemExit(message)
     image = image.convert()
     if colorkey is not None:
         if colorkey is -1:
