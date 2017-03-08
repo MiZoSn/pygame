@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 import pygame
 from pygame.locals import *
 import sys
@@ -9,9 +8,9 @@ SCR_RECT = Rect(0, 0, 640, 480)
 def load_image(filename, colorkey=None):
     try:
         image = pygame.image.load(filename)
-    except pygame.error, message:
-        print "Cannot load image:", filename
-        raise SystemExit, message
+    except pygame.error as message:
+        print("Cannot load image:", filename)
+        raise SystemExit(message)
     image = image.convert()
     if colorkey is not None:
         if colorkey is -1:
@@ -42,20 +41,20 @@ class Character(pygame.sprite.Sprite):
     def update(self):
         # キャラクターアニメーション
         self.frame += 1
-        self.image = self.images[self.frame/self.animcycle%4]
+        self.image = self.images[int(self.frame/self.animcycle%4)]
 
 def main():
     pygame.init()
     screen = pygame.display.set_mode(SCR_RECT.size)
-    pygame.display.set_caption(u"キャラクターアニメーション")
+    pygame.display.set_caption("キャラクターアニメーション")
 
     all = pygame.sprite.RenderUpdates()
     Character.containers = all
-    
+
     player = Character("player4.png", 0, 0)
     king = Character("king4.png", 32, 0)
     soldier = Character("soldier4.png", 64, 0)
-    
+
     clock = pygame.time.Clock()
     while True:
         clock.tick(60)

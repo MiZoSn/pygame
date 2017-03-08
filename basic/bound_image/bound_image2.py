@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 import pygame
 from pygame.locals import *
 import sys
@@ -8,7 +7,7 @@ SCR_WIDTH,SCR_HEIGHT = 640,480
 
 pygame.init()
 screen = pygame.display.set_mode((SCR_WIDTH,SCR_HEIGHT))
-pygame.display.set_caption(u"画像の移動と跳ね返り処理2")
+pygame.display.set_caption("画像の移動と跳ね返り処理2")
 
 img = pygame.image.load("python.png").convert_alpha()
 img_rect = img.get_rect()
@@ -28,7 +27,7 @@ while True:
         vx = -vx
     if img_rect.top < 0 or img_rect.bottom > SCR_HEIGHT:
         vy = -vy
-    
+
     screen.fill((0,0,255))
     screen.blit(img, img_rect)
     pygame.display.update()

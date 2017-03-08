@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 import pygame
 from pygame.locals import *
 import sys
@@ -8,7 +7,7 @@ SCREEN_SIZE = (640, 480)
 
 pygame.init()
 screen = pygame.display.set_mode(SCREEN_SIZE)
-pygame.display.set_caption(u"キーイベント")
+pygame.display.set_caption("キーイベント")
 
 img = pygame.image.load("python.png").convert_alpha()
 img_rect = img.get_rect()
@@ -20,7 +19,7 @@ while True:
     screen.fill((0,0,255))
     screen.blit(img, img_rect)
     pygame.display.update()
-    
+
     for event in pygame.event.get():
         if event.type == QUIT: sys.exit()
         if event.type == KEYDOWN:  # キーを押したとき

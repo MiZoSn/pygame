@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 import pygame
 from pygame.locals import *
 import sys
@@ -19,14 +18,14 @@ hello3 = sysfont.render("Hello, world!", True, (255,0,0), (255,255,0))
 
 while True:
     screen.fill((0,0,255))
-    
+
     # テキストを描画する
     screen.blit(hello1, (20,50))
     screen.blit(hello2, (20,150))
     screen.blit(hello3, (20,250))
-    
+
     pygame.display.update()
-    
+
     for event in pygame.event.get():
         if event.type == QUIT:
             sys.exit()

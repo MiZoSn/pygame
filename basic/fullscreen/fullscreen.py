@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 import pygame
 from pygame.locals import *
 import sys
@@ -15,7 +14,7 @@ class MySprite(pygame.sprite.Sprite):
         self.rect = Rect(x, y, width, height)
         self.vx = vx
         self.vy = vy
-        
+
     def update(self):
         self.rect.move_ip(self.vx, self.vy)
         # 壁にぶつかったら跳ね返る
@@ -29,7 +28,7 @@ class MySprite(pygame.sprite.Sprite):
 def main():
     pygame.init()
     screen = pygame.display.set_mode(SCR_RECT.size)
-    pygame.display.set_caption(u"フルスクリーンモード")
+    pygame.display.set_caption("フルスクリーンモード")
     # スプライトグループを作成してスプライトクラスに割り当て
     group = pygame.sprite.RenderUpdates()
     MySprite.containers = group

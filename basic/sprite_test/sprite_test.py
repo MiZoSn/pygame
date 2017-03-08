@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 import pygame
 from pygame.locals import *
 import sys
@@ -15,7 +14,7 @@ class MySprite(pygame.sprite.Sprite):
         self.rect = Rect(x, y, width, height)
         self.vx = vx
         self.vy = vy
-        
+
     def update(self):
         self.rect.move_ip(self.vx, self.vy)
         # 壁にぶつかったら跳ね返る
@@ -25,39 +24,39 @@ class MySprite(pygame.sprite.Sprite):
             self.vy = -self.vy
         # 画面からはみ出ないようにする
         self.rect = self.rect.clamp(SCR_RECT)
-    
+
     def draw(self, screen):
         screen.blit(self.image, self.rect)
 
 def main():
     pygame.init()
     screen = pygame.display.set_mode(SCR_RECT.size)
-    pygame.display.set_caption(u"スプライトの使い方")
-    
+    pygame.display.set_caption("スプライトの使い方")
+
     # スプライトを作成
     python1 = MySprite("python.png", 0, 0, 2, 2)
     python2 = MySprite("python.png", 10, 10, 5, 5)
     python3 = MySprite("python.png", 320, 240, -2, 3)
-    
+
     clock = pygame.time.Clock()
-    
+
     while True:
         clock.tick(60)  # 60fps
-        
+
         screen.fill((0,0,255))
-        
+
         # スプライトを更新
         python1.update()
         python2.update()
         python3.update()
-        
+
         # スプライトを描画
         python1.draw(screen)
         python2.draw(screen)
         python3.draw(screen)
-        
+
         pygame.display.update()
-        
+
         for event in pygame.event.get():
             if event.type == QUIT:
                 sys.exit()

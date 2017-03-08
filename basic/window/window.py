@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 import pygame
 from pygame.locals import *
 import sys
@@ -11,7 +10,7 @@ pygame.init()
 # SCREEN_SIZEの画面を作成
 screen = pygame.display.set_mode(SCREEN_SIZE)
 # タイトルバーの文字列をセット
-pygame.display.set_caption(u"ウィンドウの作成")
+pygame.display.set_caption("ウィンドウの作成")
 
 # ゲームループ
 while True:

@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 import pygame
 from pygame.locals import *
 import sys
@@ -8,7 +7,7 @@ SCREEN_SIZE = (640, 480)
 
 pygame.init()
 screen = pygame.display.set_mode(SCREEN_SIZE)
-pygame.display.set_caption(u"透明色の指定")
+pygame.display.set_caption("透明色の指定")
 
 planeImg = pygame.image.load("plane.png").convert()
 
@@ -22,7 +21,7 @@ while True:
     screen.blit(planeImg, (100,100))
     screen.blit(planeImg2, (200,100))
     pygame.display.update()
-    
+
     for event in pygame.event.get():
         if event.type == QUIT:
             sys.exit()

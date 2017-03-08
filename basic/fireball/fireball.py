@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-#coding:utf-8
 import pygame
 from pygame.locals import *
 import math
@@ -11,14 +10,14 @@ START = (320, 240)  # ファイアボールの始点
 def main():
     pygame.init()
     screen = pygame.display.set_mode(SCR_RECT.size)
-    pygame.display.set_caption(u"ファイアボール")
-    
+    pygame.display.set_caption("ファイアボール")
+
     # スプライトグループ
     all = pygame.sprite.RenderUpdates()
     Fireball.containers = all
     # スプライトの画像を登録
     Fireball.image = load_image("fireball.png")
-    
+
     clock = pygame.time.Clock()
     while True:
         clock.tick(60)
@@ -66,9 +65,9 @@ class Fireball(pygame.sprite.Sprite):
 def load_image(filename, colorkey=None):
     try:
         image = pygame.image.load(filename)
-    except pygame.error, message:
-        print "Cannot load image:", filename
-        raise SystemExit, message
+    except pygame.error as message:
+        print ("Cannot load image:", filename)
+        raise SystemExit(message)
     image = image.convert()
     if colorkey is not None:
         if colorkey is -1:

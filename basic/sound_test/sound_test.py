@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 import pygame
 from pygame.locals import *
 import sys
@@ -8,7 +7,7 @@ SCR_WIDTH,SCR_HEIGHT = 640,480
 
 pygame.init()
 screen = pygame.display.set_mode((SCR_WIDTH,SCR_HEIGHT))
-pygame.display.set_caption(u"サウンドテスト")
+pygame.display.set_caption("サウンドテスト")
 
 # 画像をロード
 img = pygame.image.load("python.png").convert_alpha()
@@ -31,7 +30,7 @@ while True:
     # 画像の移動
     img_rect.x += vx * time_passed_seconds
     img_rect.y += vy * time_passed_seconds
-    
+
     # 壁にぶつかると跳ね返る
     if img_rect.left < 0 or img_rect.right > SCR_WIDTH:
         hit_sound.play()  # サウンドを再生
@@ -39,7 +38,7 @@ while True:
     if img_rect.top < 0 or img_rect.bottom > SCR_HEIGHT:
         hit_sound.play()  # サウンドを再生
         vy = -vy
-    
+
     screen.fill((0,0,255))
     screen.blit(img, img_rect)
     pygame.display.update()
