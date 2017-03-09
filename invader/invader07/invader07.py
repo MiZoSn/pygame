@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-#coding: utf-8
 import pygame
 from pygame.locals import *
 import os
@@ -13,7 +12,7 @@ class Invader:
     def __init__(self):
         pygame.init()
         screen = pygame.display.set_mode(SCR_RECT.size)
-        pygame.display.set_caption(u"Invader 07 ゲームオーバー画面")
+        pygame.display.set_caption("Invader 07 ゲームオーバー画面")
         # 素材のロード
         self.load_images()
         self.load_sounds()
@@ -47,7 +46,7 @@ class Invader:
         # エイリアンを作成
         for i in range(0, 50):
             x = 20 + (i % 10) * 40
-            y = 20 + (i / 10) * 40
+            y = 20 + (i // 10) * 40
             Alien((x,y))
     def update(self):
         """ゲーム状態の更新"""
@@ -75,7 +74,7 @@ class Invader:
             screen.blit(push_space, ((SCR_RECT.width-push_space.get_width())/2, 300))
             # クレジットを描画
             credit_font = pygame.font.SysFont(None, 20)
-            credit = credit_font.render(u"2008 http://pygame.skr.jp", False, (255,255,255))
+            credit = credit_font.render("2008 http://pygame.skr.jp", False, (255,255,255))
             screen.blit(credit, ((SCR_RECT.width-credit.get_width())/2, 380))
         elif self.game_state == PLAY:  # ゲームプレイ画面
             self.all.draw(screen)
@@ -188,7 +187,7 @@ class Alien(pygame.sprite.Sprite):
             Beam(self.rect.center)
         # キャラクターアニメーション
         self.frame += 1
-        self.image = self.images[self.frame/self.animcycle%2]
+        self.image = self.images[int(self.frame/self.animcycle%2)]
 
 class Shot(pygame.sprite.Sprite):
     """プレイヤーが発射するミサイル"""
@@ -229,7 +228,7 @@ class Explosion(pygame.sprite.Sprite):
         self.max_frame = len(self.images) * self.animcycle  # 消滅するフレーム
     def update(self):
         # キャラクターアニメーション
-        self.image = self.images[self.frame/self.animcycle]
+        self.image = self.images[int(self.frame/self.animcycle)]
         self.frame += 1
         if self.frame == self.max_frame:
             self.kill()  # 消滅
@@ -239,9 +238,9 @@ def load_image(filename, colorkey=None):
     filename = os.path.join("data", filename)
     try:
         image = pygame.image.load(filename)
-    except pygame.error, message:
-        print "Cannot load image:", filename
-        raise SystemExit, message
+    except pygame.error as message:
+        print("Cannot load image:", filename)
+        raise SystemExit(message)
     image = image.convert()
     if colorkey is not None:
         if colorkey is -1:
@@ -255,7 +254,7 @@ def split_image(image, n):
     image_list = []
     w = image.get_width()
     h = image.get_height()
-    w1 = w / n
+    w1 = int(w / n)
     for i in range(0, w, w1):
         surface = pygame.Surface((w1,h))
         surface.blit(image, (0,0), (i,0,w1,h))
