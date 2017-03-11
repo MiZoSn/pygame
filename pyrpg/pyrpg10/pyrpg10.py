@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 import pygame
 from pygame.locals import *
 import sys
@@ -12,7 +11,7 @@ DOWN,LEFT,RIGHT,UP = 0,1,2,3
 def main():
     pygame.init()
     screen = pygame.display.set_mode(SCR_RECT.size)
-    pygame.display.set_caption(u"PyRPG 10 ピクセルベーススクロール")
+    pygame.display.set_caption("PyRPG 10 ピクセルベーススクロール")
     # マップチップをロード
     Map.images[0] = load_image("grass.png") # 草地
     Map.images[1] = load_image("water.png")  # 水
@@ -46,9 +45,9 @@ def load_image(filename, colorkey=None):
     filename = os.path.join("data", filename)
     try:
         image = pygame.image.load(filename)
-    except pygame.error, message:
-        print "Cannot load image:", filename
-        raise SystemExit, message
+    except pygame.error as message:
+        print("Cannot load image:", filename)
+        raise SystemExit(message)
     image = image.convert()
     if colorkey is not None:
         if colorkey is -1:
@@ -81,10 +80,10 @@ class Map:
         """マップを描画する"""
         offsetx, offsety = offset
         # マップの描画範囲を計算
-        startx = offsetx / GS
-        endx = startx + SCR_RECT.width/GS + 1
-        starty = offsety / GS
-        endy = starty + SCR_RECT.height/GS + 1
+        startx = int(offsetx / GS)
+        endx = int(startx + SCR_RECT.width/GS + 1)
+        starty = int(offsety / GS)
+        endy = int(starty + SCR_RECT.height/GS + 1)
         # マップの描画
         for y in range(starty, endy):
             for x in range(startx, endx):
@@ -139,8 +138,8 @@ class Player:
             self.rect.move_ip(self.vx, self.vy)
             if self.rect.left % GS == 0 and self.rect.top % GS == 0:  # マスにおさまったら移動完了
                 self.moving = False
-                self.x = self.rect.left / GS
-                self.y = self.rect.top / GS
+                self.x = int(self.rect.left / GS)
+                self.y = int(self.rect.top / GS)
         else:
             # キー入力があったら移動を開始する（速度をセットする）
             pressed_keys = pygame.key.get_pressed()
@@ -166,7 +165,7 @@ class Player:
                     self.moving = True
         # キャラクターアニメーション（frameに応じて描画イメージを切り替える）
         self.frame += 1
-        self.image = self.images[self.direction*4+self.frame/self.animcycle%4]
+        self.image = self.images[int(self.direction*4+self.frame/self.animcycle%4)]
     def draw(self, screen, offset):
         """オフセットを考慮してプレイヤーを描画"""
         offsetx, offsety = offset

@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 import pygame
 from pygame.locals import *
 import sys
@@ -11,9 +10,9 @@ def load_image(filename, colorkey=None):
     filename = os.path.join("data", filename)
     try:
         image = pygame.image.load(filename)
-    except pygame.error, message:
-        print "Cannot load image:", filename
-        raise SystemExit, message
+    except pygame.error as message:
+        print("Cannot load image:", filename)
+        raise SystemExit(message)
     image = image.convert()
     if colorkey is not None:
         if colorkey is -1:
@@ -24,10 +23,10 @@ def load_image(filename, colorkey=None):
 def main():
     pygame.init()
     screen = pygame.display.set_mode(SCR_RECT.size)
-    pygame.display.set_caption(u"PyRPG 01 プレイヤーの描画")
-    
+    pygame.display.set_caption("PyRPG 01 プレイヤーの描画")
+
     playerImg = load_image("player1.png", -1)  # プレイヤー
-    
+
     while True:
         screen.fill((0,0,255))
         screen.blit(playerImg, (0,0))  # プレイヤーを描画

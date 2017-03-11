@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 import pygame
 from pygame.locals import *
 import codecs
@@ -16,7 +15,7 @@ PROB_MOVE = 0.005  # 移動確率
 def main():
     pygame.init()
     screen = pygame.display.set_mode(SCR_RECT.size)
-    pygame.display.set_caption(u"PyRPG 13 メッセージウィンドウの表示")
+    pygame.display.set_caption("PyRPG 13 メッセージウィンドウの表示")
     # キャラクターイメージをロード
     Character.images["player"] = split_image(load_image("player.png"))
     Character.images["king"] = split_image(load_image("king.png"))
@@ -65,9 +64,9 @@ def load_image(filename, colorkey=None):
     filename = os.path.join("data", filename)
     try:
         image = pygame.image.load(filename)
-    except pygame.error, message:
-        print "Cannot load image:", filename
-        raise SystemExit, message
+    except pygame.error as message:
+        print("Cannot load image:", filename)
+        raise SystemExit(message)
     image = image.convert()
     if colorkey is not None:
         if colorkey is -1:
@@ -110,10 +109,10 @@ class Map:
         """マップを描画する"""
         offsetx, offsety = offset
         # マップの描画範囲を計算
-        startx = offsetx / GS
-        endx = startx + SCR_RECT.width/GS + 1
-        starty = offsety / GS
-        endy = starty + SCR_RECT.height/GS + 1
+        startx = int(offsetx / GS)
+        endx = int(startx + SCR_RECT.width/GS + 1)
+        starty = int(offsety / GS)
+        endy = int(starty + SCR_RECT.height/GS + 1)
         # マップの描画
         for y in range(starty, endy):
             for x in range(startx, endx):
@@ -202,8 +201,8 @@ class Character:
             self.rect.move_ip(self.vx, self.vy)
             if self.rect.left % GS == 0 and self.rect.top % GS == 0:  # マスにおさまったら移動完了
                 self.moving = False
-                self.x = self.rect.left / GS
-                self.y = self.rect.top / GS
+                self.x = int(self.rect.left / GS)
+                self.y = int(self.rect.top / GS)
         elif self.movetype == MOVE and random.random() < PROB_MOVE:
             # 移動中でないならPROB_MOVEの確率でランダム移動開始
             self.direction = random.randint(0, 3)  # 0-3のいずれか
@@ -225,7 +224,7 @@ class Character:
                     self.moving = True
         # キャラクターアニメーション（frameに応じて描画イメージを切り替える）
         self.frame += 1
-        self.image = self.images[self.name][self.direction*4+self.frame/self.animcycle%4]
+        self.image = self.images[self.name][int(self.direction*4+self.frame/self.animcycle%4)]
     def draw(self, screen, offset):
         """オフセットを考慮してプレイヤーを描画"""
         offsetx, offsety = offset
@@ -248,8 +247,8 @@ class Player(Character):
             self.rect.move_ip(self.vx, self.vy)
             if self.rect.left % GS == 0 and self.rect.top % GS == 0:  # マスにおさまったら移動完了
                 self.moving = False
-                self.x = self.rect.left / GS
-                self.y = self.rect.top / GS
+                self.x = int(self.rect.left / GS)
+                self.y = int(self.rect.top / GS)
                 # TODO: ここに接触イベントのチェックを入れる
         else:
             # プレイヤーの場合、キー入力があったら移動を開始する
@@ -276,7 +275,7 @@ class Player(Character):
                     self.moving = True
         # キャラクターアニメーション（frameに応じて描画イメージを切り替える）
         self.frame += 1
-        self.image = self.images[self.name][self.direction*4+self.frame/self.animcycle%4]
+        self.image = self.images[self.name][int(self.direction*4+self.frame/self.animcycle%4)]
 
 class Window:
     """ウィンドウの基本クラス"""

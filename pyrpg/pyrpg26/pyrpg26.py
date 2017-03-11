@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 import pygame
 from pygame.locals import *
 import codecs
@@ -23,9 +22,9 @@ def load_image(dir, file, colorkey=None):
     file = os.path.join(dir, file)
     try:
         image = pygame.image.load(file)
-    except pygame.error, message:
-        print "Cannot load image:", file
-        raise SystemExit, message
+    except pygame.error as message:
+        print("Cannot load image:", file)
+        raise SystemExit(message)
     image = image.convert()
     if colorkey is not None:
         if colorkey is -1:
@@ -51,7 +50,7 @@ class PyRPG:
         pygame.init()
         # フルスクリーン化 + Hardware Surface使用
         self.screen = pygame.display.set_mode(SCR_RECT.size, DOUBLEBUF|HWSURFACE|FULLSCREEN)
-        pygame.display.set_caption(u"PyRPG 26 ゲーム状態の導入")
+        pygame.display.set_caption("PyRPG 26 ゲーム状態の導入")
         # サウンドをロード
         self.load_sounds("data", "sound.dat")
         # キャラクターチップをロード
@@ -181,19 +180,19 @@ class PyRPG:
                     self.msgwnd.set(chara.message)
                     self.game_state = TALK
                 else:
-                    self.msgwnd.set(u"そのほうこうには　だれもいない。")
+                    self.msgwnd.set("そのほうこうには　だれもいない。")
                     self.game_state = TALK
             elif self.cmdwnd.command == CommandWindow.STATUS:  # つよさ
                 # TODO: ステータスウィンドウ表示
                 sounds["pi"].play()
                 self.cmdwnd.hide()
-                self.msgwnd.set(u"つよさウィンドウが　ひらくよてい。")
+                self.msgwnd.set("つよさウィンドウが　ひらくよてい。")
                 self.game_state = TALK
             elif self.cmdwnd.command == CommandWindow.EQUIPMENT:  # そうび
                 # TODO: そうびウィンドウ表示
                 sounds["pi"].play()
                 self.cmdwnd.hide()
-                self.msgwnd.set(u"そうびウィンドウが　ひらくよてい。")
+                self.msgwnd.set("そうびウィンドウが　ひらくよてい。")
                 self.game_state = TALK
             elif self.cmdwnd.command == CommandWindow.DOOR:  # とびら
                 sounds["pi"].play()
@@ -204,25 +203,25 @@ class PyRPG:
                     self.map.remove_event(door)
                     self.game_state = FIELD
                 else:
-                    self.msgwnd.set(u"そのほうこうに　とびらはない。")
+                    self.msgwnd.set("そのほうこうに　とびらはない。")
                     self.game_state = TALK
             elif self.cmdwnd.command == CommandWindow.SPELL:  # じゅもん
                 # TODO: じゅもんウィンドウ表示
                 sounds["pi"].play()
                 self.cmdwnd.hide()
-                self.msgwnd.set(u"じゅもんウィンドウが　ひらくよてい。")
+                self.msgwnd.set("じゅもんウィンドウが　ひらくよてい。")
                 self.game_state = TALK
             elif self.cmdwnd.command == CommandWindow.ITEM:  # どうぐ
                 # TODO: どうぐウィンドウ表示
                 sounds["pi"].play()
                 self.cmdwnd.hide()
-                self.msgwnd.set(u"どうぐウィンドウが　ひらくよてい。")
+                self.msgwnd.set("どうぐウィンドウが　ひらくよてい。")
                 self.game_state = TALK
             elif self.cmdwnd.command == CommandWindow.TACTICS:  # さくせん
                 # TODO: さくせんウィンドウ表示
                 sounds["pi"].play()
                 self.cmdwnd.hide()
-                self.msgwnd.set(u"さくせんウィンドウが　ひらくよてい。")
+                self.msgwnd.set("さくせんウィンドウが　ひらくよてい。")
                 self.game_state = TALK
             elif self.cmdwnd.command == CommandWindow.SEARCH:  # しらべる
                 sounds["pi"].play()
@@ -230,11 +229,11 @@ class PyRPG:
                 treasure = player.search(self.map)
                 if treasure != None:
                     treasure.open()
-                    self.msgwnd.set(u"%s　をてにいれた。" % treasure.item)
+                    self.msgwnd.set("%s　をてにいれた。" % treasure.item)
                     self.game_state = TALK
                     self.map.remove_event(treasure)
                 else:
-                    self.msgwnd.set(u"しかし　なにもみつからなかった。")
+                    self.msgwnd.set("しかし　なにもみつからなかった。")
                     self.game_state = TALK
     def talk_handler(self, event):
         """会話中のイベントハンドラ"""
@@ -245,8 +244,8 @@ class PyRPG:
                 self.game_state = FIELD
     def calc_offset(self, player):
         """オフセットを計算する"""
-        offsetx = player.rect.topleft[0] - SCR_RECT.width/2
-        offsety = player.rect.topleft[1] - SCR_RECT.height/2
+        offsetx = int(player.rect.topleft[0] - SCR_RECT.width/2)
+        offsety = int(player.rect.topleft[1] - SCR_RECT.height/2)
         return offsetx, offsety
     def show_info(self):
         """デバッグ情報を表示"""
@@ -327,10 +326,10 @@ class Map:
         """マップを描画する"""
         offsetx, offsety = offset
         # マップの描画範囲を計算
-        startx = offsetx / GS
-        endx = startx + SCR_RECT.width/GS + 1
-        starty = offsety / GS
-        endy = starty + SCR_RECT.height/GS + 1
+        startx = int(offsetx / GS)
+        endx = int(startx + SCR_RECT.width/GS + 1)
+        starty = int(offsety / GS)
+        endy = int(starty + SCR_RECT.height/GS + 1)
         # マップの描画
         for y in range(starty, endy):
             for x in range(startx, endx):
@@ -490,8 +489,8 @@ class Character:
             self.rect.move_ip(self.vx, self.vy)
             if self.rect.left % GS == 0 and self.rect.top % GS == 0:  # マスにおさまったら移動完了
                 self.moving = False
-                self.x = self.rect.left / GS
-                self.y = self.rect.top / GS
+                self.x = int(self.rect.left / GS)
+                self.y = int(self.rect.top / GS)
         elif self.movetype == MOVE and random.random() < PROB_MOVE:
             # 移動中でないならPROB_MOVEの確率でランダム移動開始
             self.direction = random.randint(0, 3)  # 0-3のいずれか
@@ -513,7 +512,7 @@ class Character:
                     self.moving = True
         # キャラクターアニメーション（frameに応じて描画イメージを切り替える）
         self.frame += 1
-        self.image = self.images[self.name][self.direction*4+self.frame/self.animcycle%4]
+        self.image = self.images[self.name][int(self.direction*4+self.frame/self.animcycle%4)]
     def draw(self, screen, offset):
         """オフセットを考慮してプレイヤーを描画"""
         offsetx, offsety = offset
@@ -543,8 +542,8 @@ class Player(Character):
             self.rect.move_ip(self.vx, self.vy)
             if self.rect.left % GS == 0 and self.rect.top % GS == 0:  # マスにおさまったら移動完了
                 self.moving = False
-                self.x = self.rect.left / GS
-                self.y = self.rect.top / GS
+                self.x = int(self.rect.left / GS)
+                self.y = int(self.rect.top / GS)
                 # TODO: ここに接触イベントのチェックを入れる
                 if not self.leader: return  # リーダーでなければイベントは無視
                 event = map.get_event(self.x, self.y)
@@ -560,7 +559,7 @@ class Player(Character):
                         player.moving = False
         # キャラクターアニメーション（frameに応じて描画イメージを切り替える）
         self.frame += 1
-        self.image = self.images[self.name][self.direction*4+self.frame/self.animcycle%4]
+        self.image = self.images[self.name][int(self.direction*4+self.frame/self.animcycle%4)]
     def move_to(self, destx, desty):
         """現在位置から(destx,desty)への移動を開始"""
         dx = destx - self.x
@@ -683,7 +682,7 @@ class Party:
         # 重なったとき先頭キャラが表示されるように後ろの人から描画
         for player in self.member[::-1]:
             player.draw(screen, offset)
-    
+
 class MessageEngine:
     FONT_WIDTH = 16
     FONT_HEIGHT = 22
@@ -706,7 +705,7 @@ class MessageEngine:
             rect = self.kana2rect[ch]
             screen.blit(self.image, (x,y), (rect.x+self.color,rect.y,rect.width,rect.height))
         except KeyError:
-            print "描画できない文字があります:%s" % ch
+            print("描画できない文字があります:%s" % ch)
             return
     def draw_string(self, screen, pos, str):
         """文字列を描画"""
@@ -770,7 +769,7 @@ class MessageWindow(Window):
         self.next_flag = False
         self.hide_flag = False
         # 全角スペースで初期化
-        self.text = [u'　'] * (self.MAX_LINES*self.MAX_CHARS_PER_LINE)
+        self.text = ['　'] * (self.MAX_LINES*self.MAX_CHARS_PER_LINE)
         # メッセージをセット
         p = 0
         for i in range(len(message)):
@@ -778,11 +777,11 @@ class MessageWindow(Window):
             if ch == "/":  # /は改行文字
                 self.text[p] = "/"
                 p += self.MAX_CHARS_PER_LINE
-                p = (p/self.MAX_CHARS_PER_LINE)*self.MAX_CHARS_PER_LINE
+                p = int((p/self.MAX_CHARS_PER_LINE)*self.MAX_CHARS_PER_LINE)
             elif ch == "%":  # \fは改ページ文字
                 self.text[p] = "%"
                 p += self.MAX_CHARS_PER_PAGE
-                p = (p/self.MAX_CHARS_PER_PAGE)*self.MAX_CHARS_PER_PAGE
+                p = int((p/self.MAX_CHARS_PER_PAGE)*self.MAX_CHARS_PER_PAGE)
             else:
                 self.text[p] = ch
                 p += 1
@@ -798,10 +797,10 @@ class MessageWindow(Window):
                 p = self.cur_page * self.MAX_CHARS_PER_PAGE + self.cur_pos
                 if self.text[p] == "/":  # 改行文字
                     self.cur_pos += self.MAX_CHARS_PER_LINE
-                    self.cur_pos = (self.cur_pos/self.MAX_CHARS_PER_LINE) * self.MAX_CHARS_PER_LINE
+                    self.cur_pos = int((self.cur_pos/self.MAX_CHARS_PER_LINE) * self.MAX_CHARS_PER_LINE)
                 elif self.text[p] == "%":  # 改ページ文字
                     self.cur_pos += self.MAX_CHARS_PER_PAGE
-                    self.cur_pos = (self.cur_pos/self.MAX_CHARS_PER_PAGE) * self.MAX_CHARS_PER_PAGE
+                    self.cur_pos = int((self.cur_pos/self.MAX_CHARS_PER_PAGE) * self.MAX_CHARS_PER_PAGE)
                 elif self.text[p] == "$":  # 終端文字
                     self.hide_flag = True
                 # 1ページの文字数に達したら▼を表示
@@ -817,13 +816,13 @@ class MessageWindow(Window):
         for i in range(self.cur_pos):
             ch = self.text[self.cur_page*self.MAX_CHARS_PER_PAGE+i]
             if ch == "/" or ch == "%" or ch == "$": continue  # 制御文字は表示しない
-            dx = self.text_rect[0] + MessageEngine.FONT_WIDTH * (i % self.MAX_CHARS_PER_LINE)
-            dy = self.text_rect[1] + (self.LINE_HEIGHT+MessageEngine.FONT_HEIGHT) * (i / self.MAX_CHARS_PER_LINE)
+            dx = self.text_rect[0] + MessageEngine.FONT_WIDTH * int((i % self.MAX_CHARS_PER_LINE))
+            dy = self.text_rect[1] + (self.LINE_HEIGHT+MessageEngine.FONT_HEIGHT) * int((i / self.MAX_CHARS_PER_LINE))
             self.msg_engine.draw_character(screen, (dx,dy), ch)
         # 最後のページでない場合は▼を表示
         if (not self.hide_flag) and self.next_flag:
             if self.frame / self.animcycle % 2 == 0:
-                dx = self.text_rect[0] + (self.MAX_CHARS_PER_LINE/2) * MessageEngine.FONT_WIDTH - MessageEngine.FONT_WIDTH/2
+                dx = self.text_rect[0] + int((self.MAX_CHARS_PER_LINE/2) * MessageEngine.FONT_WIDTH - MessageEngine.FONT_WIDTH/2)
                 dy = self.text_rect[1] + (self.LINE_HEIGHT + MessageEngine.FONT_HEIGHT) * 3
                 screen.blit(self.cursor, (dx,dy))
     def next(self):
@@ -842,8 +841,8 @@ class MessageWindow(Window):
 class CommandWindow(Window):
     LINE_HEIGHT = 8  # 行間の大きさ
     TALK, STATUS, EQUIPMENT, DOOR, SPELL, ITEM, TACTICS, SEARCH = range(0, 8)
-    COMMAND = [u"はなす", u"つよさ", u"そうび", u"とびら",
-               u"じゅもん", u"どうぐ", u"さくせん", u"しらべる"]
+    COMMAND = ["はなす", "つよさ", "そうび", "とびら",
+               "じゅもん", "どうぐ", "さくせん", "しらべる"]
     def __init__(self, rect, msg_engine):
         Window.__init__(self, rect)
         self.text_rect = self.inner_rect.inflate(-32, -32)
@@ -857,16 +856,16 @@ class CommandWindow(Window):
         # はなす、つよさ、そうび、とびらを描画
         for i in range(0, 4):
             dx = self.text_rect[0] + MessageEngine.FONT_WIDTH
-            dy = self.text_rect[1] + (self.LINE_HEIGHT+MessageEngine.FONT_HEIGHT) * (i % 4)
+            dy = self.text_rect[1] + (self.LINE_HEIGHT+MessageEngine.FONT_HEIGHT) * int((i % 4))
             self.msg_engine.draw_string(screen, (dx,dy), self.COMMAND[i])
         # じゅもん、どうぐ、さくせん、しらべるを描画
         for i in range(4, 8):
             dx = self.text_rect[0] + MessageEngine.FONT_WIDTH * 6
-            dy = self.text_rect[1] + (self.LINE_HEIGHT+MessageEngine.FONT_HEIGHT) * (i % 4)
+            dy = self.text_rect[1] + (self.LINE_HEIGHT+MessageEngine.FONT_HEIGHT) * int((i % 4))
             self.msg_engine.draw_string(screen, (dx,dy), self.COMMAND[i])
         # 選択中のコマンドの左側に▶を描画
-        dx = self.text_rect[0] + MessageEngine.FONT_WIDTH * 5 * (self.command / 4)
-        dy = self.text_rect[1] + (self.LINE_HEIGHT+MessageEngine.FONT_HEIGHT) * (self.command % 4)
+        dx = self.text_rect[0] + MessageEngine.FONT_WIDTH * 5 * (self.command // 4)
+        dy = self.text_rect[1] + (self.LINE_HEIGHT+MessageEngine.FONT_HEIGHT) * int((self.command % 4))
         screen.blit(self.cursor, (dx,dy))
     def show(self):
         """オーバーライド"""

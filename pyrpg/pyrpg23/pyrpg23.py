@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 import pygame
 from pygame.locals import *
 import codecs
@@ -20,7 +19,7 @@ sounds = {}  # サウンド
 def main():
     pygame.init()
     screen = pygame.display.set_mode(SCR_RECT.size)
-    pygame.display.set_caption(u"PyRPG 23 コマンドウィンドウ")
+    pygame.display.set_caption("PyRPG 23 コマンドウィンドウ")
     # サウンドをロード
     load_sounds("data", "sound.dat")
     # キャラクターチップをロード
@@ -88,17 +87,17 @@ def cmdwnd_handler(event, cmdwnd, msgwnd, player, map):
             if chara != None:
                 msgwnd.set(chara.message)
             else:
-                msgwnd.set(u"そのほうこうには　だれもいない。")
+                msgwnd.set("そのほうこうには　だれもいない。")
         elif cmdwnd.command == CommandWindow.STATUS:  # つよさ
             # TODO: ステータスウィンドウ表示
             sounds["pi"].play()
             cmdwnd.hide()
-            msgwnd.set(u"つよさウィンドウが　ひらくよてい。")
+            msgwnd.set("つよさウィンドウが　ひらくよてい。")
         elif cmdwnd.command == CommandWindow.EQUIPMENT:  # そうび
             # TODO: そうびウィンドウ表示
             sounds["pi"].play()
             cmdwnd.hide()
-            msgwnd.set(u"そうびウィンドウが　ひらくよてい。")
+            msgwnd.set("そうびウィンドウが　ひらくよてい。")
         elif cmdwnd.command == CommandWindow.DOOR:  # とびら
             sounds["pi"].play()
             cmdwnd.hide()
@@ -107,32 +106,32 @@ def cmdwnd_handler(event, cmdwnd, msgwnd, player, map):
                 door.open()
                 map.remove_event(door)
             else:
-                msgwnd.set(u"そのほうこうに　とびらはない。")
+                msgwnd.set("そのほうこうに　とびらはない。")
         elif cmdwnd.command == CommandWindow.SPELL:  # じゅもん
             # TODO: じゅもんウィンドウ表示
             sounds["pi"].play()
             cmdwnd.hide()
-            msgwnd.set(u"じゅもんウィンドウが　ひらくよてい。")
+            msgwnd.set("じゅもんウィンドウが　ひらくよてい。")
         elif cmdwnd.command == CommandWindow.ITEM:  # どうぐ
             # TODO: どうぐウィンドウ表示
             sounds["pi"].play()
             cmdwnd.hide()
-            msgwnd.set(u"どうぐウィンドウが　ひらくよてい。")
+            msgwnd.set("どうぐウィンドウが　ひらくよてい。")
         elif cmdwnd.command == CommandWindow.TACTICS:  # さくせん
             # TODO: さくせんウィンドウ表示
             sounds["pi"].play()
             cmdwnd.hide()
-            msgwnd.set(u"さくせんウィンドウが　ひらくよてい。")
+            msgwnd.set("さくせんウィンドウが　ひらくよてい。")
         elif cmdwnd.command == CommandWindow.SEARCH:  # しらべる
             sounds["pi"].play()
             cmdwnd.hide()
             treasure = player.search(map)
             if treasure != None:
                 treasure.open()
-                msgwnd.set(u"%s　をてにいれた。" % treasure.item)
+                msgwnd.set("%s　をてにいれた。" % treasure.item)
                 map.remove_event(treasure)
             else:
-                msgwnd.set(u"しかし　なにもみつからなかった。")
+                msgwnd.set("しかし　なにもみつからなかった。")
 
 def show_info(screen, msg_engine, player, map):
     """デバッグ情報を表示"""
@@ -184,17 +183,17 @@ def load_mapchips(dir, file):
 
 def calc_offset(player):
     """オフセットを計算する"""
-    offsetx = player.rect.topleft[0] - SCR_RECT.width/2
-    offsety = player.rect.topleft[1] - SCR_RECT.height/2
+    offsetx = int(player.rect.topleft[0] - SCR_RECT.width/2)
+    offsety = int(player.rect.topleft[1] - SCR_RECT.height/2)
     return offsetx, offsety
 
 def load_image(dir, file, colorkey=None):
     file = os.path.join(dir, file)
     try:
         image = pygame.image.load(file)
-    except pygame.error, message:
-        print "Cannot load image:", file
-        raise SystemExit, message
+    except pygame.error as message:
+        print("Cannot load image:", file)
+        raise SystemExit(message)
     image = image.convert()
     if colorkey is not None:
         if colorkey is -1:
@@ -247,10 +246,10 @@ class Map:
         """マップを描画する"""
         offsetx, offsety = offset
         # マップの描画範囲を計算
-        startx = offsetx / GS
-        endx = startx + SCR_RECT.width/GS + 1
-        starty = offsety / GS
-        endy = starty + SCR_RECT.height/GS + 1
+        startx = int(offsetx / GS)
+        endx = int(startx + SCR_RECT.width/GS + 1)
+        starty = int(offsety / GS)
+        endy = int(starty + SCR_RECT.height/GS + 1)
         # マップの描画
         for y in range(starty, endy):
             for x in range(startx, endx):
@@ -404,8 +403,8 @@ class Character:
             self.rect.move_ip(self.vx, self.vy)
             if self.rect.left % GS == 0 and self.rect.top % GS == 0:  # マスにおさまったら移動完了
                 self.moving = False
-                self.x = self.rect.left / GS
-                self.y = self.rect.top / GS
+                self.x = int(self.rect.left / GS)
+                self.y = int(self.rect.top / GS)
         elif self.movetype == MOVE and random.random() < PROB_MOVE:
             # 移動中でないならPROB_MOVEの確率でランダム移動開始
             self.direction = random.randint(0, 3)  # 0-3のいずれか
@@ -427,7 +426,7 @@ class Character:
                     self.moving = True
         # キャラクターアニメーション（frameに応じて描画イメージを切り替える）
         self.frame += 1
-        self.image = self.images[self.name][self.direction*4+self.frame/self.animcycle%4]
+        self.image = self.images[self.name][int(self.direction*4+self.frame/self.animcycle%4)]
     def draw(self, screen, offset):
         """オフセットを考慮してプレイヤーを描画"""
         offsetx, offsety = offset
@@ -455,8 +454,8 @@ class Player(Character):
             self.rect.move_ip(self.vx, self.vy)
             if self.rect.left % GS == 0 and self.rect.top % GS == 0:  # マスにおさまったら移動完了
                 self.moving = False
-                self.x = self.rect.left / GS
-                self.y = self.rect.top / GS
+                self.x = int(self.rect.left / GS)
+                self.y = int(self.rect.top / GS)
                 # TODO: ここに接触イベントのチェックを入れる
                 event = map.get_event(self.x, self.y)
                 if isinstance(event, MoveEvent):  # MoveEventなら
@@ -492,7 +491,7 @@ class Player(Character):
                     self.moving = True
         # キャラクターアニメーション（frameに応じて描画イメージを切り替える）
         self.frame += 1
-        self.image = self.images[self.name][self.direction*4+self.frame/self.animcycle%4]
+        self.image = self.images[self.name][int(self.direction*4+self.frame/self.animcycle%4)]
     def talk(self, map):
         """キャラクターが向いている方向のとなりにキャラクターがいるか調べる"""
         # 向いている方向のとなりの座標を求める
@@ -565,7 +564,7 @@ class MessageEngine:
             rect = self.kana2rect[ch]
             screen.blit(self.image, (x,y), (rect.x+self.color,rect.y,rect.width,rect.height))
         except KeyError:
-            print "描画できない文字があります:%s" % ch
+            print("描画できない文字があります:%s" % ch)
             return
     def draw_string(self, screen, pos, str):
         """文字列を描画"""
@@ -629,7 +628,7 @@ class MessageWindow(Window):
         self.next_flag = False
         self.hide_flag = False
         # 全角スペースで初期化
-        self.text = [u'　'] * (self.MAX_LINES*self.MAX_CHARS_PER_LINE)
+        self.text = ['　'] * (self.MAX_LINES*self.MAX_CHARS_PER_LINE)
         # メッセージをセット
         p = 0
         for i in range(len(message)):
@@ -637,11 +636,11 @@ class MessageWindow(Window):
             if ch == "/":  # /は改行文字
                 self.text[p] = "/"
                 p += self.MAX_CHARS_PER_LINE
-                p = (p/self.MAX_CHARS_PER_LINE)*self.MAX_CHARS_PER_LINE
+                p = int((p/self.MAX_CHARS_PER_LINE)*self.MAX_CHARS_PER_LINE)
             elif ch == "%":  # \fは改ページ文字
                 self.text[p] = "%"
                 p += self.MAX_CHARS_PER_PAGE
-                p = (p/self.MAX_CHARS_PER_PAGE)*self.MAX_CHARS_PER_PAGE
+                p = int((p/self.MAX_CHARS_PER_PAGE)*self.MAX_CHARS_PER_PAGE)
             else:
                 self.text[p] = ch
                 p += 1
@@ -657,10 +656,10 @@ class MessageWindow(Window):
                 p = self.cur_page * self.MAX_CHARS_PER_PAGE + self.cur_pos
                 if self.text[p] == "/":  # 改行文字
                     self.cur_pos += self.MAX_CHARS_PER_LINE
-                    self.cur_pos = (self.cur_pos/self.MAX_CHARS_PER_LINE) * self.MAX_CHARS_PER_LINE
+                    self.cur_pos = int((self.cur_pos/self.MAX_CHARS_PER_LINE) * self.MAX_CHARS_PER_LINE)
                 elif self.text[p] == "%":  # 改ページ文字
                     self.cur_pos += self.MAX_CHARS_PER_PAGE
-                    self.cur_pos = (self.cur_pos/self.MAX_CHARS_PER_PAGE) * self.MAX_CHARS_PER_PAGE
+                    self.cur_pos = int((self.cur_pos/self.MAX_CHARS_PER_PAGE) * self.MAX_CHARS_PER_PAGE)
                 elif self.text[p] == "$":  # 終端文字
                     self.hide_flag = True
                 # 1ページの文字数に達したら▼を表示
@@ -677,7 +676,7 @@ class MessageWindow(Window):
             ch = self.text[self.cur_page*self.MAX_CHARS_PER_PAGE+i]
             if ch == "/" or ch == "%" or ch == "$": continue  # 制御文字は表示しない
             dx = self.text_rect[0] + MessageEngine.FONT_WIDTH * (i % self.MAX_CHARS_PER_LINE)
-            dy = self.text_rect[1] + (self.LINE_HEIGHT+MessageEngine.FONT_HEIGHT) * (i / self.MAX_CHARS_PER_LINE)
+            dy = self.text_rect[1] + (self.LINE_HEIGHT+MessageEngine.FONT_HEIGHT) * (i // self.MAX_CHARS_PER_LINE)
             self.msg_engine.draw_character(screen, (dx,dy), ch)
         # 最後のページでない場合は▼を表示
         if (not self.hide_flag) and self.next_flag:
@@ -699,8 +698,8 @@ class MessageWindow(Window):
 class CommandWindow(Window):
     LINE_HEIGHT = 8  # 行間の大きさ
     TALK, STATUS, EQUIPMENT, DOOR, SPELL, ITEM, TACTICS, SEARCH = range(0, 8)
-    COMMAND = [u"はなす", u"つよさ", u"そうび", u"とびら",
-               u"じゅもん", u"どうぐ", u"さくせん", u"しらべる"]
+    COMMAND = ["はなす", "つよさ", "そうび", "とびら",
+               "じゅもん", "どうぐ", "さくせん", "しらべる"]
     def __init__(self, rect, msg_engine):
         Window.__init__(self, rect)
         self.text_rect = self.inner_rect.inflate(-32, -32)
@@ -722,7 +721,7 @@ class CommandWindow(Window):
             dy = self.text_rect[1] + (self.LINE_HEIGHT+MessageEngine.FONT_HEIGHT) * (i % 4)
             self.msg_engine.draw_string(screen, (dx,dy), self.COMMAND[i])
         # 選択中のコマンドの左側に▶を描画
-        dx = self.text_rect[0] + MessageEngine.FONT_WIDTH * 5 * (self.command / 4)
+        dx = self.text_rect[0] + MessageEngine.FONT_WIDTH * 5 * (self.command // 4)
         dy = self.text_rect[1] + (self.LINE_HEIGHT+MessageEngine.FONT_HEIGHT) * (self.command % 4)
         screen.blit(self.cursor, (dx,dy))
     def show(self):
