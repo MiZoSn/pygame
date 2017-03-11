@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-#coding:utf-8
 import pygame
 from pygame.locals import *
 import os
@@ -14,16 +13,16 @@ show_grid = False  # グリッドを表示するか？
 def main():
     pygame.init()
     screen = pygame.display.set_mode(SCR_RECT.size)
-    pygame.display.set_caption(u"PyMap 04 選択マップチップの表示")
-    
+    pygame.display.set_caption("PyMap 04 選択マップチップの表示")
+
     # マップチップをロード
     load_mapchips("data", "mapchip.dat")
-    
+
     palette = MapchipPalette()
     map = Map("NEW", 64, 64, palette)
     cursor = Cursor(0, 0)
     msg_engine = MessageEngine()
-    
+
     clock = pygame.time.Clock()
     while True:
         clock.tick(60)
@@ -107,8 +106,8 @@ class Map:
             px, py = pygame.mouse.get_pos()
             # 全体マップ上での座標はoffsetを足せばよい
             # GSで割るのはピクセルをマスに直すため
-            selectx = (px + offsetx) / GS
-            selecty = (py + offsety) / GS
+            selectx = int((px + offsetx) / GS)
+            selecty = int((py + offsety) / GS)
             # マップ範囲外だったら無視
             if selectx < 0 or selecty < 0 or selectx > self.col-1 or selecty > self.row-1:
                  return
@@ -116,18 +115,18 @@ class Map:
             self.map[selecty][selectx] = self.palette.selected_mapchip
         elif mouse_pressed[2]:  # 右クリック（マップチップ抽出）
             px, py = pygame.mouse.get_pos()
-            selectx = (px + offsetx) / GS
-            selecty = (py + offsety) / GS
+            selectx = int((px + offsetx) / GS)
+            selecty = int((py + offsety) / GS)
             if selectx < 0 or selecty < 0 or selectx > self.col-1 or selecty > self.row-1:
                  return
             self.palette.selected_mapchip = self.map[selecty][selectx]
     def draw(self, screen, offset):
         offsetx, offsety = offset
         # マップの描画範囲を計算
-        startx = offsetx / GS
-        endx = startx + SCR_RECT.width/GS + 2
-        starty = offsety / GS
-        endy = starty + SCR_RECT.height/GS + 2
+        startx = int(offsetx / GS)
+        endx = int(startx + SCR_RECT.width/GS + 2)
+        starty = int(offsety / GS)
+        endy = int(starty + SCR_RECT.height/GS + 2)
         # マップの描画
         for y in range(starty, endy):
             for x in range(startx, endx):
@@ -158,7 +157,7 @@ class MapchipPalette:
             x = mouse_pos[0] / GS
             y = mouse_pos[1] / GS
             # マップチップ番号に変換
-            n = y * self.COL + x
+            n = int(y * self.COL + x)
             if n < len(Map.images) and Map.images[n] != None:
                 self.selected_mapchip = n
                 self.display_flag = False  # パレットを消す
@@ -168,7 +167,7 @@ class MapchipPalette:
         # パレットを描画
         for i in range(self.ROW * self.COL):
             x = (i % self.COL) * GS
-            y = (i / self.COL) * GS
+            y = (i // self.COL) * GS
             image = Map.images[0]
             try:
                 if Map.images[i] != None:
@@ -186,9 +185,9 @@ def load_image(dir, file, colorkey=None):
     file = os.path.join(dir, file)
     try:
         image = pygame.image.load(file)
-    except pygame.error, message:
-        print "Cannot load image:", file
-        raise SystemExit, message
+    except pygame.error as message:
+        print("Cannot load image:", file)
+        raise SystemExit(message)
     image = image.convert()
     if colorkey is not None:
         if colorkey is -1:
@@ -237,7 +236,7 @@ class MessageEngine:
             rect = self.kana2rect[ch]
             screen.blit(self.image, (x,y), (rect.x+self.color,rect.y,rect.width,rect.height))
         except KeyError:
-            print "描画できない文字があります:%s" % ch
+            print("描画できない文字があります:%s" % ch)
             return
     def draw_string(self, screen, pos, str):
         """文字列を描画"""

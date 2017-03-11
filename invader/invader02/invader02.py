@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-#coding: utf-8
 import pygame
 from pygame.locals import *
 import os
@@ -10,7 +9,7 @@ SCR_RECT = Rect(0, 0, 640, 480)
 def main():
     pygame.init()
     screen = pygame.display.set_mode(SCR_RECT.size)
-    pygame.display.set_caption(u"Invader 02 ミサイルの発射")
+    pygame.display.set_caption("Invader 02 ミサイルの発射")
     # サウンドのロード
     Player.shot_sound = load_sound("shot.wav")
     # スプライトグループを作成して登録
@@ -22,7 +21,7 @@ def main():
     Shot.image = load_image("shot.png")
     # 自機を作成
     Player()
-    
+
     clock = pygame.time.Clock()
     while True:
         clock.tick(60)
@@ -87,9 +86,9 @@ def load_image(filename, colorkey=None):
     filename = os.path.join("data", filename)
     try:
         image = pygame.image.load(filename)
-    except pygame.error, message:
-        print "Cannot load image:", filename
-        raise SystemExit, message
+    except pygame.error as message:
+        print("Cannot load image:", filename)
+        raise SystemExit(message)
     image = image.convert()
     if colorkey is not None:
         if colorkey is -1:

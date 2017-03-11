@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 import pygame
 from pygame.locals import *
 import sys
@@ -29,9 +28,9 @@ def load_image(filename, colorkey=None):
     filename = os.path.join("data", filename)
     try:
         image = pygame.image.load(filename)
-    except pygame.error, message:
-        print "Cannot load image:", filename
-        raise SystemExit, message
+    except pygame.error as message:
+        print("Cannot load image:", filename)
+        raise SystemExit(message)
     image = image.convert()
     if colorkey is not None:
         if colorkey is -1:
@@ -50,7 +49,7 @@ def draw_map(screen):
 
 pygame.init()
 screen = pygame.display.set_mode(SCR_RECT.size)
-pygame.display.set_caption(u"PyRPG 02 マップを作る")
+pygame.display.set_caption("PyRPG 02 マップを作る")
 
 # イメージロード
 playerImg = load_image("player1.png", -1)  # プレイヤー

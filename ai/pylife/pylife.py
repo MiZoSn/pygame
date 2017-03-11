@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-#coding:utf-8
 import pygame
 from pygame.locals import *
 import random
@@ -7,8 +6,8 @@ import sys
 
 SCR_RECT = Rect(0, 0, 800, 600)  # スクリーンサイズ
 CS = 10  # セルのサイズ
-NUM_ROW = SCR_RECT.height / CS   # フィールドの行数
-NUM_COL = SCR_RECT.width / CS  # フィールドの列数
+NUM_ROW = int(SCR_RECT.height / CS)   # フィールドの行数
+NUM_COL = int(SCR_RECT.width / CS)  # フィールドの列数
 DEAD, ALIVE = 0, 1  # セルの生死定数
 RAND_LIFE = 0.1
 
@@ -16,7 +15,7 @@ class LifeGame:
     def __init__(self):
         pygame.init()
         screen = pygame.display.set_mode(SCR_RECT.size)
-        pygame.display.set_caption(u"Conway's Game of Life")
+        pygame.display.set_caption("Conway's Game of Life")
         self.font = pygame.font.SysFont(None, 16)
         # NUM_ROW x NUM_COLサイズのフィールド（2次元リスト）
         self.field = [[DEAD for x in range(NUM_COL)] for y in range(NUM_ROW)]
@@ -75,7 +74,7 @@ class LifeGame:
                 elif event.type == MOUSEBUTTONDOWN and event.button == 1:
                     # 左ボタンクリックでセルを反転
                     px, py = event.pos
-                    x, y = px/CS, py/CS
+                    x, y = int(px/CS), int(py/CS)
                     self.cursor = [x, y]
                     if self.field[y][x] == DEAD:
                         self.field[y][x] = ALIVE

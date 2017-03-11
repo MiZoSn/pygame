@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 import pygame
 from pygame.locals import *
 import sys
@@ -12,7 +11,7 @@ DOWN,LEFT,RIGHT,UP = 0,1,2,3
 def main():
     pygame.init()
     screen = pygame.display.set_mode(SCR_RECT.size)
-    pygame.display.set_caption(u"PyRPG 08 マップのロード")
+    pygame.display.set_caption("PyRPG 08 マップのロード")
     # マップチップをロード
     Map.images[0] = load_image("grass.png")  # 草地
     Map.images[1] = load_image("water.png")  # 水
@@ -45,9 +44,9 @@ def load_image(filename, colorkey=None):
     filename = os.path.join("data", filename)
     try:
         image = pygame.image.load(filename)
-    except pygame.error, message:
-        print "Cannot load image:", filename
-        raise SystemExit, message
+    except pygame.error as message:
+        print("Cannot load image:", filename)
+        raise SystemExit(message)
     image = image.convert()
     if colorkey is not None:
         if colorkey is -1:
@@ -116,7 +115,7 @@ class Player:
     def update(self):
         # キャラクターアニメーション（frameに応じて描画イメージを切り替える）
         self.frame += 1
-        self.image = self.images[self.direction*4+self.frame/self.animcycle%4]
+        self.image = self.images[int(self.direction*4+self.frame/self.animcycle%4)]
     def move(self, dir, map):
         """プレイヤーを移動"""
         if dir == DOWN:

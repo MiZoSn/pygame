@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-#coding: utf-8
 import pygame
 from pygame.locals import *
 import os
@@ -228,8 +227,8 @@ class Battlefield:
         self.counter = 0
         # Y方向はスクロールする1マス分大きく確保
         self.ocean = pygame.Surface((w, h+self.tileside)).convert()
-        for y in range(h/self.tileside+1):
-            for x in range(w/self.tileside):
+        for y in range(int(h/self.tileside+1)):
+            for x in range(int(w/self.tileside)):
                 self.ocean.blit(self.ocean_tile, (x*self.tileside, y*self.tileside))
     def offset(self):
         self.counter = (self.counter - self.speed) % self.tileside
@@ -267,7 +266,7 @@ class Plane(pygame.sprite.Sprite):
         self.rect = self.rect.clamp(SCR_RECT)
         # アニメション
         self.frame = (self.frame + 1) % self.max_frame
-        self.image = self.images[self.frame/self.animcycle]
+        self.image = self.images[int(self.frame/self.animcycle)]
         # 装填中
         if self.reload_timer > 0:
             self.reload_timer -= 1
@@ -302,7 +301,7 @@ class Enemy(pygame.sprite.Sprite):
         self.rect.move_ip(0, self.speed)
         # アニメーション
         self.frame = (self.frame + 1) % self.max_frame
-        self.image = self.images[self.frame/self.animcycle]
+        self.image = self.images[int(self.frame/self.animcycle)]
         # 下端へ達したら消滅
         if self.rect.top > SCR_RECT.bottom:
             self.kill()
@@ -361,7 +360,7 @@ class Explosion(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.center = enemy.rect.center  # 敵機の中心で爆発
     def update(self):
-        self.image = self.images[self.frame/self.animcycle]
+        self.image = self.images[int(self.frame/self.animcycle)]
         self.frame += 1
         # アニメーションを最後まで再生したら消滅
         if self.frame == self.max_frame:
@@ -378,7 +377,7 @@ class PlaneExplosion(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.center = plane.rect.center  # 自機の中心で爆発
     def update(self):
-        self.image = self.images[self.frame/self.animcycle]
+        self.image = self.images[int(self.frame/self.animcycle)]
         self.frame += 1
         # アニメーションを最後まで再生したら消滅
         if self.frame == self.max_frame:
@@ -418,9 +417,9 @@ def load_image(filename, colorkey=None):
     filename = os.path.join("data", filename)
     try:
         image = pygame.image.load(filename).convert()
-    except pygame.error, message:
-        print "Cannot load image:", filename
-        raise SystemExit, message
+    except pygame.error as message:
+        print("Cannot load image:", filename)
+        raise SystemExit(message)
     return image_colorkey(image, colorkey)
 
 def load_sound(filename):
