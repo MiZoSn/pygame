@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-#coding:utf-8
 from OpenGL.GL import *
 from OpenGL.GLU import *
 from OpenGL.GLUT import *
@@ -29,25 +28,25 @@ def display():
     glColor3f(1.0, 1.0, 1.0)
     glLoadIdentity()
     gluLookAt(0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0)
-    
+
     # 太陽の描画
     glColor3f(1.0, 0.0, 0.0)
     glutSolidSphere(1.0, 50, 50)
-    
+
     # 地球の描画
     glRotatef(earth_angle, 0.0, 1.0, 0.0)
     glTranslatef(2.5, 0.0, 0.0)
     glColor3f(0.0, 0.0, 1.0)
     glutSolidSphere(0.2, 20, 20)
-    
+
     # 月の描画
     glColor3f(1.0, 1.0, 0.0)
     glRotatef(moon_angle, 0.0, 1.0, 0.0)
     glTranslatef(0.5, 0.0, 0.0)
     glutSolidSphere(0.1, 20, 20)
-    
+
     glutSwapBuffers()
-    
+
 def reshape(width, height):
     glViewport(0, 0, width, height)
     glMatrixMode(GL_PROJECTION)

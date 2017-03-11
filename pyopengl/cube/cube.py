@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-#coding:utf-8
 from OpenGL.GL import *
 from OpenGL.GLU import *
 from OpenGL.GLUT import *
@@ -34,9 +33,9 @@ def display():
     # 視野変換：カメラの位置と方向のセット
     gluLookAt(3.0, 3.0, 4.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0)   # 右斜め上から撮影
 #    gluLookAt(-4.0, 0, -4.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0)  # 左斜め後ろから撮影
-    
+
     draw_cube()  # 立方体を描く
-    
+
     glFlush()  # OpenGLコマンドの強制実行
 
 def reshape(width, height):

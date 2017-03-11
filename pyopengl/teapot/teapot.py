@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-#coding:utf-8
 from OpenGL.GL import *
 from OpenGL.GLU import *
 from OpenGL.GLUT import *
@@ -33,20 +32,20 @@ def display():
     glLoadIdentity()
     # 視野変換：カメラの位置と方向のセット
     gluLookAt(0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0)
-    
+
     # ティーポットを描画
     glColor3f(1.0, 0.0, 0.0)
     glutSolidTeapot(1.0)
 #    glutWireTeapot(1.0)
-    
+
     # 立方体を描画
 #    glColor3f(1.0, 1.0, 0.0)
 #    glutWireCube(2.0)
-    
+
     # 球を描画
 #    glColor3f(0.0, 0.0, 1.0)
 #    glutWireSphere(1.0, 30, 30)
-    
+
     glFlush()  # OpenGLコマンドの強制実行
 
 def reshape(width, height):

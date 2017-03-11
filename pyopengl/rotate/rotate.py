@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-#coding:utf-8
 from OpenGL.GL import *
 from OpenGL.GLU import *
 from OpenGL.GLUT import *
@@ -23,7 +22,7 @@ def init(width, height):
     """初期化"""
     glClearColor(0.0, 0.0, 0.0, 1.0)
     glEnable(GL_DEPTH_TEST)
-    
+
     glMatrixMode(GL_PROJECTION)
     glLoadIdentity()
     gluPerspective(45.0, float(width)/float(height), 0.1, 100.0)
@@ -31,18 +30,18 @@ def init(width, height):
 def display():
     """描画処理"""
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
-    
+
     glMatrixMode(GL_MODELVIEW)
     glLoadIdentity()
     gluLookAt(0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0)
-    
+
     # Y軸に沿ってangleだけ回転
     glRotatef(angle, 0.0, 1.0, 0.0)
-    
+
     # Teapot
     glColor3f(1.0, 0.0, 0.0)
     glutSolidTeapot(1.0)
-    
+
     glutSwapBuffers()  # バッファ切り替え
 
 def idle():

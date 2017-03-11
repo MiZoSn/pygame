@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-#coding:utf-8
 from OpenGL.GL import *
 from OpenGL.GLU import *
 from OpenGL.GLUT import *
@@ -28,16 +27,16 @@ def display():
     glColor3f(1.0, 1.0, 1.0)
     glLoadIdentity()
     gluLookAt(0.0, 0.0, 3.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0)
-    
+
     glRotatef(angle, 0.0, 1.0, 0.0)
     draw_triforce()
-    
+
     glutSwapBuffers()
 
 def draw_triforce():
     """トライフォースを描画"""
     glColor3f(1.0, 1.0, 0.0)
-    
+
     glBegin(GL_TRIANGLES)
     # 上の三角形
     glVertex2f(0, 0.8)

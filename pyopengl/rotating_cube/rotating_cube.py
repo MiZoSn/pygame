@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-#coding:utf-8
 from OpenGL.GL import *
 from OpenGL.GLU import *
 from OpenGL.GLUT import *
@@ -38,7 +37,7 @@ def display():
     gluLookAt(3.0, 2.0, 4.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0)
     glRotatef(angle, 3.0, 2.0, 1.0)
     draw_cube()  # 立方体を描く
-    
+
     glutSwapBuffers()
 
 def reshape(width, height):

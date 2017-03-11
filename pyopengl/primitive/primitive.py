@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-#coding:utf-8
 from OpenGL.GL import *
 from OpenGL.GLU import *
 from OpenGL.GLUT import *
@@ -17,7 +16,7 @@ def main():
 
 def init():
     glClearColor(0.0, 0.0, 1.0, 1.0)
-    
+
     # 座標系の設定
     glMatrixMode(GL_PROJECTION)
     glLoadIdentity()
@@ -26,7 +25,7 @@ def init():
 def display():
     """描画処理"""
     glClear(GL_COLOR_BUFFER_BIT)
-    
+
     # 赤い四角形ポリゴンを描く
     glColor3f(1.0, 0.0, 0.0)
     glBegin(GL_QUADS)
@@ -35,7 +34,7 @@ def display():
     glVertex2f(0.5, 0.5)
     glVertex2f(0.5, -0.5)
     glEnd()
-    
+
     glFlush()
 
 if __name__ == "__main__":
